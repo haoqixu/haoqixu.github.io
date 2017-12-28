@@ -1,5 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>~xu0o0 - Tech</title><link href="http://blog.xu0o0.me/" rel="alternate"></link><link href="http://blog.xu0o0.me/feeds/tech.atom.xml" rel="self"></link><id>http://blog.xu0o0.me/</id><updated>2017-09-11T00:00:00+08:00</updated><entry><title>【译】Kubernetes 是什么？</title><link href="http://blog.xu0o0.me/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>~xu0o0 - Tech</title><link href="http://blog.xu0o0.me/" rel="alternate"></link><link href="http://blog.xu0o0.me/feeds/tech.atom.xml" rel="self"></link><id>http://blog.xu0o0.me/</id><updated>2017-10-28T00:00:00+08:00</updated><entry><title>【译】使用 Docker 构建你的 Serverless 树莓派集群</title><link href="http://blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html" rel="alternate"></link><published>2017-10-28T00:00:00+08:00</published><updated>2017-10-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-10-28:/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;原文链接：&lt;a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/"&gt;https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原文作者：&lt;a href="https://twitter.com/alexellisuk"&gt;Alex Ellis&lt;/a&gt;
+校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;发布平台：&lt;a href="https://linux.cn/article-9007-1.html"&gt;Linux中国&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这篇博文将向你展示如何使用 Docker 和 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/IMG_20170525_204840_crop.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;图片：3 个 Raspberry Pi Zero&lt;/em&gt; &lt;/p&gt;
+&lt;p&gt;这是我在本文中描述的集群，用黄铜支架分隔每个设备。&lt;/p&gt;
+&lt;h3 id="serverless"&gt;Serverless 是什么？它为何重要？&lt;/h3&gt;
+&lt;p&gt;行业对于 …&lt;/p&gt;</summary><content type="html">&lt;blockquote&gt;
+&lt;p&gt;原文链接：&lt;a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/"&gt;https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原文作者：&lt;a href="https://twitter.com/alexellisuk"&gt;Alex Ellis&lt;/a&gt;
+校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;发布平台：&lt;a href="https://linux.cn/article-9007-1.html"&gt;Linux中国&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这篇博文将向你展示如何使用 Docker 和 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/IMG_20170525_204840_crop.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;图片：3 个 Raspberry Pi Zero&lt;/em&gt; &lt;/p&gt;
+&lt;p&gt;这是我在本文中描述的集群，用黄铜支架分隔每个设备。&lt;/p&gt;
+&lt;h3 id="serverless"&gt;Serverless 是什么？它为何重要？&lt;/h3&gt;
+&lt;p&gt;行业对于 “serverless” 这个术语的含义有几种解释。在这篇博文中，我们就把它理解为一种事件驱动的架构模式，它能让你用自己喜欢的任何语言编写轻量可复用的功能。&lt;a href="https://blog.alexellis.io/introducing-functions-as-a-service/"&gt;更多关于 Serverless 的资料&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/evolution.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Serverless 架构也引出了“功能即服务服务”模式，简称 FaaS&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Serverless 的“功能”可以做任何事，但通常用于处理给定的输入——例如来自 GitHub、Twitter、PayPal、Slack、Jenkins CI pipeline 的事件；或者以树莓派为例，处理像红外运动传感器、激光绊网、温度计等真实世界的传感器的输入。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://www.raspberrypi.org/learning/parent-detector/images/pir_wiring.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Serverless 功能能够更好地结合第三方的后端服务，使系统整体的能力大于各部分之和。&lt;/p&gt;
+&lt;p&gt;了解更多背景信息，可以阅读我最近一偏博文：&lt;a href="https://blog.alexellis.io/introducing-functions-as-a-service/"&gt;功能即服务（FaaS）简介&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="_1"&gt;概述&lt;/h3&gt;
+&lt;p&gt;我们将使用 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt;，它能够让主机或者集群作为支撑 Serverless 功能运行的后端。任何能够使用 Docker 部署的可执行二进制文件、脚本或者编程语言都能在 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 上运作，你可以根据速度和伸缩性选择部署的规模。另一个优点是，它还内建了用户界面和监控系统。&lt;/p&gt;
+&lt;p&gt;这是我们要执行的步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在一个或多个主机上配置 Docker （树莓派 2 或者 3）；&lt;/li&gt;
+&lt;li&gt;利用 Docker Swarm 将它们连接；&lt;/li&gt;
+&lt;li&gt;部署 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt;；&lt;/li&gt;
+&lt;li&gt;使用 Python 编写我们的第一个功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="docker-swarm"&gt;Docker Swarm&lt;/h3&gt;
+&lt;p&gt;Docker 是一项打包和部署应用的技术，支持集群上运行，有着安全的默认设置，而且在搭建集群时只需要一条命令。OpenFaaS 使用 Docker 和 Swarm 在你的可用树莓派上传递你的 Serverless 功能。&lt;/p&gt;
+&lt;p&gt;我推荐你在这个项目中使用带树莓派 2 或者 3，以太网交换机和&lt;a href="https://www.amazon.co.uk/Anker-PowerPort-Family-Sized-Technology-Smartphones/dp/B00PK1IIJY"&gt;强大的 USB 多端口电源适配器&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="raspbian"&gt;准备 Raspbian&lt;/h3&gt;
+&lt;p&gt;把 &lt;a href="http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/"&gt;Raspbian Jessie Lite&lt;/a&gt; 写入 SD 卡（8GB 容量就正常工作了，但还是推荐使用 16GB 的 SD 卡）。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注意：不要下载成 Raspbian Stretch 了&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;社区在努力让 Docker 支持 Raspbian Stretch，但是还未能做到完美运行。请从&lt;a href="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-07-05/"&gt;树莓派基金会网站&lt;/a&gt;下载 Jessie Lite 镜像。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我推荐使用 &lt;a href="https://etcher.io/"&gt;Etcher.io&lt;/a&gt; 烧写镜像。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在引导树莓派之前，你需要在引导分区创建名为 &lt;code&gt;ssh&lt;/code&gt; 的空白文件。这样才能允许远程登录。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="_2"&gt;接通电源，然后修改主机名&lt;/h4&gt;
+&lt;p&gt;现在启动树莓派的电源并且使用 &lt;code&gt;ssh&lt;/code&gt; 连接：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ssh pi@raspberrypi.local
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;
+&lt;p&gt;默认密码是 &lt;code&gt;raspberry&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;使用 &lt;code&gt;raspi-config&lt;/code&gt; 工具把主机名改为 &lt;code&gt;swarm-1&lt;/code&gt; 或者类似的名字，然后重启。&lt;/p&gt;
+&lt;p&gt;当你到了这一步，你还可以把划分给 GPU （显卡）的内存设置为 16MB。&lt;/p&gt;
+&lt;h4 id="docker"&gt;现在安装 Docker&lt;/h4&gt;
+&lt;p&gt;我们可以使用通用脚本来安装：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -sSL https://get.docker.com &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;
+&lt;p&gt;这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;你可能会看到类似下面的警告，不过你可以安全地忽略它并且成功安装上 Docker CE 17.05：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;WARNING&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;raspbian&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;longer&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;://&lt;/span&gt;&lt;span class="kd"&gt;get&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;  
+&lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;legacy&lt;/span&gt; &lt;span class="n"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt; &lt;span class="kd"&gt;package&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ usermod pi -aG docker
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;blockquote&gt;
+&lt;p&gt;如果你的用户名不是 &lt;code&gt;pi&lt;/code&gt;，那就把它替换成你的用户名。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="_3"&gt;修改默认密码&lt;/h4&gt;
+&lt;p&gt;输入 &lt;code&gt;$sudo passwd pi&lt;/code&gt;，然后设置一个新密码，请不要跳过这一步！&lt;/p&gt;
+&lt;h4 id="_4"&gt;重复以上步骤&lt;/h4&gt;
+&lt;p&gt;现在为其它的树莓派重复上述步骤。&lt;/p&gt;
+&lt;h3 id="swarm"&gt;创建你的 Swarm 集群&lt;/h3&gt;
+&lt;p&gt;登录你的第一个树莓派，然后输入下面的命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker swarm init
+Swarm initialized: current node &lt;span class="o"&gt;(&lt;/span&gt;3ra7i5ldijsffjnmubmsfh767&lt;span class="o"&gt;)&lt;/span&gt; is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join &lt;span class="se"&gt;\&lt;/span&gt;
+    --token SWMTKN-1-496mv9itb7584pzcddzj4zvzzfltgud8k75rvujopw15n3ehzu-af445b08359golnzhncbdj9o3 &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="m"&gt;192&lt;/span&gt;.168.0.79:2377
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 &lt;code&gt;ssh&lt;/code&gt; 登录每个树莓派，运行这个加入集群的命令。&lt;/p&gt;
+&lt;p&gt;等待连接完成后，在第一个树莓派上查看集群的节点：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS  
+3ra7i5ldijsffjnmubmsfh767 *   swarm1              Ready               Active              Leader  
+k9mom28s2kqxocfq1fo6ywu63     swarm3              Ready               Active  
+y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;恭喜你！你现在拥有一个树莓派集群了！&lt;/p&gt;
+&lt;h4 id="_5"&gt;更多关于集群的内容&lt;/h4&gt;
+&lt;p&gt;你可以看到三个节点启动运行。这时只有一个节点是集群管理者。如果我们的管理节点_死机_了，集群就进入了不可修复的状态。我们可以通过添加冗余的管理节点解决这个问题。而且它们依然会运行工作负载，除非你明确设置了让你的服务只运作在工作节点上。&lt;/p&gt;
+&lt;p&gt;要把一个工作节点升级为管理节点，只需要在其中一个管理节点上运行 &lt;code&gt;docker node promote &amp;lt;node_name&amp;gt;&lt;/code&gt; 命令。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意： Swarm 命令，例如 &lt;code&gt;docker service ls&lt;/code&gt; 或者 &lt;code&gt;docker node ls&lt;/code&gt; 只能在管理节点上运行。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;想深入了解管理节点与工作节点如何保持一致性，可以查阅 &lt;a href="https://docs.docker.com/engine/swarm/admin_guide/"&gt;Docker Swarm 管理指南&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="openfaas"&gt;OpenFaaS&lt;/h3&gt;
+&lt;p&gt;现在我们继续部署程序，让我们的集群能够运行 Serverless 功能。&lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 是一个利用 Docker 在任何硬件或者云上让任何进程或者容器成为一个 Serverless 功能的框架。因为 Docker 和 Golang 的可移植性，它也能很好地运行在树莓派上。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/faas_side.png" /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你支持 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt;，希望你能 &lt;strong&gt;星标&lt;/strong&gt; &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 的 GitHub 仓库。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;登录你的第一个树莓派（你运行 &lt;code&gt;docker swarm init&lt;/code&gt; 的节点），然后部署这个项目：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/alexellis/faas/
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; faas
+$ ./deploy_stack.armhf.sh
+Creating network func_functions  
+Creating service func_gateway  
+Creating service func_prometheus  
+Creating service func_alertmanager  
+Creating service func_nodeinfo  
+Creating service func_markdown  
+Creating service func_wordcount  
+Creating service func_echoit  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。&lt;/p&gt;
+&lt;p&gt;这个过程会持续几分钟，你可以用下面指令查看它的完成状况：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
+ID                  NAME                MODE                REPLICAS            IMAGE                                   PORTS  
+57ine9c10xhp        func_wordcount      replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/alpine:latest-armhf  
+d979zipx1gld        func_prometheus     replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/prometheus-armhf:1.5.2       *:9090-&amp;gt;9090/tcp  
+f9yvm0dddn47        func_echoit         replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/alpine:latest-armhf  
+lhbk1fc2lobq        func_markdown       replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/markdownrender:latest-armhf  
+pj814yluzyyo        func_alertmanager   replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/alertmanager-armhf:0.5.1     *:9093-&amp;gt;9093/tcp  
+q4bet4xs10pk        func_gateway        replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/gateway-armhf:0.6.0           *:8080-&amp;gt;8080/tcp  
+v9vsvx73pszz        func_nodeinfo       replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/nodeinfo:latest-armhf  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;我们希望看到每个服务都显示 “1/1”。&lt;/p&gt;
+&lt;p&gt;你可以根据服务名查看该服务被调度到哪个树莓派上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker service ps func_markdown
+ID                  IMAGE                                   NODE    STATE  
+func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;状态一项应该显示 &lt;code&gt;Running&lt;/code&gt;，如果它是 &lt;code&gt;Pending&lt;/code&gt;，那么镜像可能还在下载中。&lt;/p&gt;
+&lt;p&gt;在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ifconfig
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;例如，如果你的 IP 地址是 192.168.0.100，那就访问 http://192.168.0.100:8080 。&lt;/p&gt;
+&lt;p&gt;这是你会看到 FaaS UI（也叫 API 网关）。这是你定义、测试、调用功能的地方。&lt;/p&gt;
+&lt;p&gt;点击名称为 “func_markdown” 的 Markdown 转换功能，输入一些 Markdown（这是 Wikipedia 用来组织内容的语言）文本。&lt;/p&gt;
+&lt;p&gt;然后点击 “invoke”。你会看到调用计数增加，屏幕下方显示功能调用的结果。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/faas_rpi.png" /&gt;&lt;/p&gt;
+&lt;h3 id="serverless_1"&gt;部署你的第一个 Serverless 功能：&lt;/h3&gt;
+&lt;p&gt;这一节的内容已经有相关的教程，但是我们需要几个步骤来配置树莓派。&lt;/p&gt;
+&lt;h4 id="faas-cli"&gt;获取 FaaS-CLI&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -sSL cli.openfaas.com &lt;span class="p"&gt;|&lt;/span&gt; sudo sh
+armv7l  
+Getting package https://github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="_6"&gt;下载样例&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/alexellis/faas-cli
+$ &lt;span class="nb"&gt;cd&lt;/span&gt; faas-cli
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id="_7"&gt;为树莓派修补样例模版&lt;/h4&gt;
+&lt;p&gt;我们临时修改我们的模版，让它们能在树莓派上工作：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cp template/node-armhf/Dockerfile template/node/
+$ cp template/python-armhf/Dockerfile template/python/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;了解 Docker 在树莓派上的最新状况，请查阅： &lt;a href="https://blog.alexellis.io/5-things-docker-rpi/"&gt;你需要了解的五件事&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;现在你可以跟着下面为 PC、笔记本和云端所写的教程操作，但我们在树莓派上要先运行一些命令。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.alexellis.io/first-faas-python-function"&gt;使用 OpenFaaS 运行你的第一个 Serverless Python 功能&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意第 3 步：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;把你的功能放到先前从 GitHub 下载的 &lt;code&gt;faas-cli&lt;/code&gt; 文件夹中，而不是 &lt;code&gt;~/functinos/hello-python&lt;/code&gt; 里。&lt;/li&gt;
+&lt;li&gt;同时，在 &lt;code&gt;stack.yml&lt;/code&gt; 文件中把 &lt;code&gt;localhost&lt;/code&gt; 替换成第一个树莓派的 IP 地址。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;集群可能会花费几分钟把 Serverless 功能下载到相关的树莓派上。你可以用下面的命令查看你的服务，确保副本一项显示 “1/1”：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
+pv27thj5lftz        hello-python        replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/faas-hello-python-armhf:latest  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;继续阅读教程：&lt;/strong&gt; &lt;a href="https://blog.alexellis.io/first-faas-python-function"&gt;使用 OpenFaaS 运行你的第一个 Serverless Python 功能&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于 Node.js 或者其它语言的更多信息，可以进一步访问 &lt;a href="https://github.com/alexellis/faas"&gt;FaaS 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="_8"&gt;检查功能的指标&lt;/h3&gt;
+&lt;p&gt;既然使用 Serverless，你也不想花时间监控你的功能。幸运的是，OpenFaaS 内建了 &lt;a href="https://prometheus.io/"&gt;Prometheus&lt;/a&gt; 指标检测，这意味着你可以追踪每个功能的运行时长和调用频率。&lt;/p&gt;
+&lt;h4 id="_9"&gt;指标驱动自动伸缩&lt;/h4&gt;
+&lt;p&gt;如果你给一个功能生成足够的负载，OpenFaaS 将自动扩展你的功能；当需求消失时，你又会回到单一副本的状态。&lt;/p&gt;
+&lt;p&gt;这个请求样例你可以复制到浏览器中：&lt;/p&gt;
+&lt;p&gt;只要把 IP 地址改成你的即可。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/call_rate.png" /&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rate(gateway_function_invocation_total[20s])  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gateway_service_count  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果你想触发自动扩展，你可以在树莓派上尝试下面指令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; curl -4 localhost:8080/function/func_echoit --data &lt;span class="s2"&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/alerts.png" /&gt;&lt;/p&gt;
+&lt;p&gt;当你降低负载，副本数量显示在你的第二个图表中，并且 &lt;code&gt;gateway_service_count&lt;/code&gt; 指标再次降回 1。&lt;/p&gt;
+&lt;h3 id="_10"&gt;结束演讲&lt;/h3&gt;
+&lt;p&gt;我们现在配置好了 Docker、Swarm， 并且让 OpenFaaS 运行代码，把树莓派像大型计算机一样使用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;希望大家支持这个项目，&lt;strong&gt;星标&lt;/strong&gt; &lt;a href="https://github.com/alexellis/faas"&gt;FaaS 的 GitHub 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;你是如何搭建好了自己的 Docker Swarm 集群并且运行 OpenFaaS 的呢？在 Twitter &lt;a href="https://twitter.com/alexellisuk"&gt;@alexellisuk&lt;/a&gt; 上分享你的照片或推文吧。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;观看我在 Dockercon 上关于 OpenFaaS 的视频&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我在 &lt;a href="https://blog.alexellis.io/dockercon-2017-captains-log/"&gt;Austin 的 Dockercon&lt;/a&gt; 上展示了 OpenFaaS。——观看介绍和互动例子的视频： https://www.youtube.com/embed/-h2VTE9WnZs &lt;/p&gt;
+&lt;p&gt;有问题？在下面的评论中提出，或者给我发邮件，邀请我进入你和志同道合者讨论树莓派、Docker、Serverless 的 Slack channel。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;想要学习更多关于树莓派上运行 Docker 的内容？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我建议从 &lt;a href="https://blog.alexellis.io/5-things-docker-rpi/"&gt;你需要了解的五件事&lt;/a&gt; 开始，它包含了安全性、树莓派和普通 PC 间微妙差别等话题。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.alexellis.io/dockercon-tips-docker-raspberry-pi/"&gt;Dockercon tips: Docker &amp;amp; Raspberry Pi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.alexellis.io/gpio-on-swarm/"&gt;Control GPIO with Docker Swarm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://blog.alexellis.io/docker-engine-in-your-pocket/"&gt;Is that a Docker Engine in your pocket??&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="serverless"></category><category term="翻译"></category></entry><entry><title>【译】Kubernetes 是什么？</title><link href="http://blog.xu0o0.me/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://www.redhat.com/en/containers/what-is-kubernetes"&gt;https://www.redhat.com/en/containers/what-is-kubernetes&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://www.redhat.com/"&gt;www.redhat.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8858-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -70,7 +338,7 @@
 &lt;p&gt;所以从基础设施的角度，管理容器的方式发生了一点小小的变化。对容器的控制在更高的层次进行，提供了更佳的控制方式，而无需用户微观管理每个单独的容器或者节点。必要的工作则主要集中在如何指派 Kubernetes 主节点、定义节点和 pod 等问题上。&lt;/p&gt;
 &lt;h4 id="docker-kubernetes"&gt;docker 在 Kubernetes 中的角色&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://www.redhat.com/en/containers/what-is-docker"&gt;Docker&lt;/a&gt; 技术依然执行它原本的任务。当 kubernetes 把 pod 调度到节点上，节点上的 kubelet 会指示 docker 启动特定的容器。接着，kubelet 会通过 docker 持续地收集容器的信息，然后提交到主节点上。Docker 如往常一样拉取容器镜像、启动或停止容器。不同点仅仅在于这是由自动化系统控制而非管理员在每个节点上手动操作的。&lt;/p&gt;
-&lt;hr /&gt;</content><category term="container"></category><category term="Docker"></category><category term="Linux"></category><category term="Kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="http://blog.xu0o0.me/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
+&lt;hr /&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="http://blog.xu0o0.me/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://opensource.com/article/17/7/how-linux-containers-evolved"&gt;https://opensource.com/article/17/7/how-linux-containers-evolved&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://opensource.com/users/rhatdan"&gt;Daniel J Walsh&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -281,4 +549,4 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;（题图：&lt;a href="https://www.flickr.com/photos/danramarch/"&gt;Daniel Ramirez&lt;/a&gt; &lt;a href="https://creativecommons.org/licenses/by-sa/4.0/"&gt;CC BY-SA 4.0&lt;/a&gt;）&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;作者简介：&lt;/p&gt;
-&lt;p&gt;Daniel J Walsh - Daniel 有将近 30 年的计算机安全领域工作经验。他在 2001 年 8 月加入 Red Hat。&lt;/p&gt;</content><category term="container"></category><category term="Docker"></category><category term="Linux"></category><category term="翻译"></category></entry></feed>
+&lt;p&gt;Daniel J Walsh - Daniel 有将近 30 年的计算机安全领域工作经验。他在 2001 年 8 月加入 Red Hat。&lt;/p&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="翻译"></category></entry></feed>

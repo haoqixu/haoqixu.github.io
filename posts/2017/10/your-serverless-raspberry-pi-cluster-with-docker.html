@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="http://blog.xu0o0.me/theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="http://blog.xu0o0.me/theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="http://blog.xu0o0.me/theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="http://blog.xu0o0.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="~xu0o0 Atom">
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="xu0o0" />
+<meta name="description" content="原文链接：https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/ 原文作者：Alex Ellis 校对：Linux.CN 的 wxy 前辈 发布平台：Linux中国 这篇博文将向你展示如何使用 Docker 和 OpenFaaS 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。 “Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。 图片：3 个 Raspberry Pi Zero 这是我在本文中描述的集群，用黄铜支架分隔每个设备。 Serverless 是什么？它为何重要？ 行业对于 …" />
+<meta name="keywords" content="container, docker, linux, serverless, 翻译">
+<meta property="og:site_name" content="~xu0o0"/>
+<meta property="og:title" content="【译】使用 Docker 构建你的 Serverless 树莓派集群"/>
+<meta property="og:description" content="原文链接：https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/ 原文作者：Alex Ellis 校对：Linux.CN 的 wxy 前辈 发布平台：Linux中国 这篇博文将向你展示如何使用 Docker 和 OpenFaaS 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。 “Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。 图片：3 个 Raspberry Pi Zero 这是我在本文中描述的集群，用黄铜支架分隔每个设备。 Serverless 是什么？它为何重要？ 行业对于 …"/>
+<meta property="og:locale" content="zh_CN"/>
+<meta property="og:url" content="http://blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-10-28 00:00:00+08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://blog.xu0o0.me/author/xu0o0.html">
+<meta property="article:section" content="Tech"/>
+<meta property="article:tag" content="container"/>
+<meta property="article:tag" content="docker"/>
+<meta property="article:tag" content="linux"/>
+<meta property="article:tag" content="serverless"/>
+<meta property="article:tag" content="翻译"/>
+<meta property="og:image" content="/img/avatar.jpg">
+
+  <title>~xu0o0 &ndash; 【译】使用 Docker 构建你的 Serverless 树莓派集群</title>
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://blog.xu0o0.me">
+        <img src="/img/avatar.jpg" alt="~xu0o0" title="~xu0o0">
+      </a>
+      <h1><a href="http://blog.xu0o0.me">~xu0o0</a></h1>
+
+
+      <nav>
+        <ul class="list">
+          <li><a href="http://blog.xu0o0.me/pages/About.html#About">About</a></li>
+          <li><a href="http://blog.xu0o0.me/pages/Blogroll.html#Blogroll">Blogroll</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-github" href="https://github.com/haoqixu" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-envelope-o" href="mailto:hqcat6@gmail.com" target="_blank"><i class="fa fa-envelope-o"></i></a></li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+    <nav>
+      <a href="http://blog.xu0o0.me">    Home
+</a>
+
+      <a href="/archives.html">archives</a>
+      <a href="/categories.html">categories</a>
+      <a href="/tags.html">tags</a>
+
+      <a href="http://blog.xu0o0.me/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="your-serverless-raspberry-pi-cluster-with-docker">【译】使用 Docker 构建你的 Serverless 树莓派集群</h1>
+    <p>
+          Posted on 2017年10月28日(周六) in <a href="http://blog.xu0o0.me/category/tech.html">Tech</a>
+
+
+    </p>
+  </header>
+  <div>
+    <blockquote>
+<p>原文链接：<a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/">https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/</a></p>
+<p>原文作者：<a href="https://twitter.com/alexellisuk">Alex Ellis</a>
+校对：<a href="https://linux.cn/article-8811-1.html">Linux.CN</a> 的 <a href="https://github.com/wxy">wxy 前辈</a></p>
+<p>发布平台：<a href="https://linux.cn/article-9007-1.html">Linux中国</a></p>
+</blockquote>
+<p>这篇博文将向你展示如何使用 Docker 和 <a href="https://github.com/alexellis/faas">OpenFaaS</a> 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。</p>
+<blockquote>
+<p>“Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。</p>
+</blockquote>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/IMG_20170525_204840_crop.jpg" /></p>
+<p><em>图片：3 个 Raspberry Pi Zero</em> </p>
+<p>这是我在本文中描述的集群，用黄铜支架分隔每个设备。</p>
+<h3 id="serverless">Serverless 是什么？它为何重要？</h3>
+<p>行业对于 “serverless” 这个术语的含义有几种解释。在这篇博文中，我们就把它理解为一种事件驱动的架构模式，它能让你用自己喜欢的任何语言编写轻量可复用的功能。<a href="https://blog.alexellis.io/introducing-functions-as-a-service/">更多关于 Serverless 的资料</a>。</p>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/evolution.png" /></p>
+<p><em>Serverless 架构也引出了“功能即服务服务”模式，简称 FaaS</em></p>
+<p>Serverless 的“功能”可以做任何事，但通常用于处理给定的输入——例如来自 GitHub、Twitter、PayPal、Slack、Jenkins CI pipeline 的事件；或者以树莓派为例，处理像红外运动传感器、激光绊网、温度计等真实世界的传感器的输入。</p>
+<p><img alt="" src="https://www.raspberrypi.org/learning/parent-detector/images/pir_wiring.png" /></p>
+<p>Serverless 功能能够更好地结合第三方的后端服务，使系统整体的能力大于各部分之和。</p>
+<p>了解更多背景信息，可以阅读我最近一偏博文：<a href="https://blog.alexellis.io/introducing-functions-as-a-service/">功能即服务（FaaS）简介</a>。</p>
+<h3 id="_1">概述</h3>
+<p>我们将使用 <a href="https://github.com/alexellis/faas">OpenFaaS</a>，它能够让主机或者集群作为支撑 Serverless 功能运行的后端。任何能够使用 Docker 部署的可执行二进制文件、脚本或者编程语言都能在 <a href="https://github.com/alexellis/faas">OpenFaaS</a> 上运作，你可以根据速度和伸缩性选择部署的规模。另一个优点是，它还内建了用户界面和监控系统。</p>
+<p>这是我们要执行的步骤：</p>
+<ul>
+<li>在一个或多个主机上配置 Docker （树莓派 2 或者 3）；</li>
+<li>利用 Docker Swarm 将它们连接；</li>
+<li>部署 <a href="https://github.com/alexellis/faas">OpenFaaS</a>；</li>
+<li>使用 Python 编写我们的第一个功能。</li>
+</ul>
+<h3 id="docker-swarm">Docker Swarm</h3>
+<p>Docker 是一项打包和部署应用的技术，支持集群上运行，有着安全的默认设置，而且在搭建集群时只需要一条命令。OpenFaaS 使用 Docker 和 Swarm 在你的可用树莓派上传递你的 Serverless 功能。</p>
+<p>我推荐你在这个项目中使用带树莓派 2 或者 3，以太网交换机和<a href="https://www.amazon.co.uk/Anker-PowerPort-Family-Sized-Technology-Smartphones/dp/B00PK1IIJY">强大的 USB 多端口电源适配器</a>。</p>
+<h3 id="raspbian">准备 Raspbian</h3>
+<p>把 <a href="http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/">Raspbian Jessie Lite</a> 写入 SD 卡（8GB 容量就正常工作了，但还是推荐使用 16GB 的 SD 卡）。</p>
+<p><em>注意：不要下载成 Raspbian Stretch 了</em></p>
+<blockquote>
+<p>社区在努力让 Docker 支持 Raspbian Stretch，但是还未能做到完美运行。请从<a href="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-07-05/">树莓派基金会网站</a>下载 Jessie Lite 镜像。</p>
+</blockquote>
+<p>我推荐使用 <a href="https://etcher.io/">Etcher.io</a> 烧写镜像。</p>
+<blockquote>
+<p>在引导树莓派之前，你需要在引导分区创建名为 <code>ssh</code> 的空白文件。这样才能允许远程登录。</p>
+</blockquote>
+<h4 id="_2">接通电源，然后修改主机名</h4>
+<p>现在启动树莓派的电源并且使用 <code>ssh</code> 连接：</p>
+<div class="highlight"><pre><span></span>$ ssh pi@raspberrypi.local
+</pre></div>
+
+
+<blockquote>
+<p>默认密码是 <code>raspberry</code></p>
+</blockquote>
+<p>使用 <code>raspi-config</code> 工具把主机名改为 <code>swarm-1</code> 或者类似的名字，然后重启。</p>
+<p>当你到了这一步，你还可以把划分给 GPU （显卡）的内存设置为 16MB。</p>
+<h4 id="docker">现在安装 Docker</h4>
+<p>我们可以使用通用脚本来安装：</p>
+<div class="highlight"><pre><span></span>$ curl -sSL https://get.docker.com <span class="p">|</span> sh
+</pre></div>
+
+
+<blockquote>
+<p>这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。</p>
+</blockquote>
+<p>你可能会看到类似下面的警告，不过你可以安全地忽略它并且成功安装上 Docker CE 17.05：</p>
+<div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="o">:</span> <span class="n">raspbian</span> <span class="k">is</span> <span class="n">no</span> <span class="n">longer</span> <span class="n">updated</span> <span class="err">@</span> <span class="n">https</span><span class="o">://</span><span class="kd">get</span><span class="o">.</span><span class="na">docker</span><span class="o">.</span><span class="na">com</span><span class="o">/</span>  
+<span class="n">Installing</span> <span class="n">the</span> <span class="n">legacy</span> <span class="n">docker</span><span class="o">-</span><span class="n">engine</span> <span class="kd">package</span><span class="o">...</span>  
+</pre></div>
+
+
+<p>之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：</p>
+<div class="highlight"><pre><span></span>$ usermod pi -aG docker
+</pre></div>
+
+
+<blockquote>
+<p>如果你的用户名不是 <code>pi</code>，那就把它替换成你的用户名。</p>
+</blockquote>
+<h4 id="_3">修改默认密码</h4>
+<p>输入 <code>$sudo passwd pi</code>，然后设置一个新密码，请不要跳过这一步！</p>
+<h4 id="_4">重复以上步骤</h4>
+<p>现在为其它的树莓派重复上述步骤。</p>
+<h3 id="swarm">创建你的 Swarm 集群</h3>
+<p>登录你的第一个树莓派，然后输入下面的命令：</p>
+<div class="highlight"><pre><span></span>$ docker swarm init
+Swarm initialized: current node <span class="o">(</span>3ra7i5ldijsffjnmubmsfh767<span class="o">)</span> is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join <span class="se">\</span>
+    --token SWMTKN-1-496mv9itb7584pzcddzj4zvzzfltgud8k75rvujopw15n3ehzu-af445b08359golnzhncbdj9o3 <span class="se">\</span>
+    <span class="m">192</span>.168.0.79:2377
+</pre></div>
+
+
+<p>你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 <code>ssh</code> 登录每个树莓派，运行这个加入集群的命令。</p>
+<p>等待连接完成后，在第一个树莓派上查看集群的节点：</p>
+<div class="highlight"><pre><span></span>$ docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS  
+3ra7i5ldijsffjnmubmsfh767 *   swarm1              Ready               Active              Leader  
+k9mom28s2kqxocfq1fo6ywu63     swarm3              Ready               Active  
+y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active  
+</pre></div>
+
+
+<p>恭喜你！你现在拥有一个树莓派集群了！</p>
+<h4 id="_5">更多关于集群的内容</h4>
+<p>你可以看到三个节点启动运行。这时只有一个节点是集群管理者。如果我们的管理节点_死机_了，集群就进入了不可修复的状态。我们可以通过添加冗余的管理节点解决这个问题。而且它们依然会运行工作负载，除非你明确设置了让你的服务只运作在工作节点上。</p>
+<p>要把一个工作节点升级为管理节点，只需要在其中一个管理节点上运行 <code>docker node promote &lt;node_name&gt;</code> 命令。</p>
+<blockquote>
+<p>注意： Swarm 命令，例如 <code>docker service ls</code> 或者 <code>docker node ls</code> 只能在管理节点上运行。</p>
+</blockquote>
+<p>想深入了解管理节点与工作节点如何保持一致性，可以查阅 <a href="https://docs.docker.com/engine/swarm/admin_guide/">Docker Swarm 管理指南</a>。</p>
+<h3 id="openfaas">OpenFaaS</h3>
+<p>现在我们继续部署程序，让我们的集群能够运行 Serverless 功能。<a href="https://github.com/alexellis/faas">OpenFaaS</a> 是一个利用 Docker 在任何硬件或者云上让任何进程或者容器成为一个 Serverless 功能的框架。因为 Docker 和 Golang 的可移植性，它也能很好地运行在树莓派上。</p>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/faas_side.png" /></p>
+<blockquote>
+<p>如果你支持 <a href="https://github.com/alexellis/faas">OpenFaaS</a>，希望你能 <strong>星标</strong> <a href="https://github.com/alexellis/faas">OpenFaaS</a> 的 GitHub 仓库。</p>
+</blockquote>
+<p>登录你的第一个树莓派（你运行 <code>docker swarm init</code> 的节点），然后部署这个项目：</p>
+<div class="highlight"><pre><span></span>$ git clone https://github.com/alexellis/faas/
+$ <span class="nb">cd</span> faas
+$ ./deploy_stack.armhf.sh
+Creating network func_functions  
+Creating service func_gateway  
+Creating service func_prometheus  
+Creating service func_alertmanager  
+Creating service func_nodeinfo  
+Creating service func_markdown  
+Creating service func_wordcount  
+Creating service func_echoit  
+</pre></div>
+
+
+<p>你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。</p>
+<p>这个过程会持续几分钟，你可以用下面指令查看它的完成状况：</p>
+<div class="highlight"><pre><span></span>$ watch <span class="s1">&#39;docker service ls&#39;</span>
+ID                  NAME                MODE                REPLICAS            IMAGE                                   PORTS  
+57ine9c10xhp        func_wordcount      replicated          <span class="m">1</span>/1                 functions/alpine:latest-armhf  
+d979zipx1gld        func_prometheus     replicated          <span class="m">1</span>/1                 alexellis2/prometheus-armhf:1.5.2       *:9090-&gt;9090/tcp  
+f9yvm0dddn47        func_echoit         replicated          <span class="m">1</span>/1                 functions/alpine:latest-armhf  
+lhbk1fc2lobq        func_markdown       replicated          <span class="m">1</span>/1                 functions/markdownrender:latest-armhf  
+pj814yluzyyo        func_alertmanager   replicated          <span class="m">1</span>/1                 alexellis2/alertmanager-armhf:0.5.1     *:9093-&gt;9093/tcp  
+q4bet4xs10pk        func_gateway        replicated          <span class="m">1</span>/1                 functions/gateway-armhf:0.6.0           *:8080-&gt;8080/tcp  
+v9vsvx73pszz        func_nodeinfo       replicated          <span class="m">1</span>/1                 functions/nodeinfo:latest-armhf  
+</pre></div>
+
+
+<p>我们希望看到每个服务都显示 “1/1”。</p>
+<p>你可以根据服务名查看该服务被调度到哪个树莓派上：</p>
+<div class="highlight"><pre><span></span>$ docker service ps func_markdown
+ID                  IMAGE                                   NODE    STATE  
+func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running  
+</pre></div>
+
+
+<p>状态一项应该显示 <code>Running</code>，如果它是 <code>Pending</code>，那么镜像可能还在下载中。</p>
+<p>在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：</p>
+<div class="highlight"><pre><span></span>$ ifconfig
+</pre></div>
+
+
+<p>例如，如果你的 IP 地址是 192.168.0.100，那就访问 http://192.168.0.100:8080 。</p>
+<p>这是你会看到 FaaS UI（也叫 API 网关）。这是你定义、测试、调用功能的地方。</p>
+<p>点击名称为 “func_markdown” 的 Markdown 转换功能，输入一些 Markdown（这是 Wikipedia 用来组织内容的语言）文本。</p>
+<p>然后点击 “invoke”。你会看到调用计数增加，屏幕下方显示功能调用的结果。</p>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/faas_rpi.png" /></p>
+<h3 id="serverless_1">部署你的第一个 Serverless 功能：</h3>
+<p>这一节的内容已经有相关的教程，但是我们需要几个步骤来配置树莓派。</p>
+<h4 id="faas-cli">获取 FaaS-CLI</h4>
+<div class="highlight"><pre><span></span>$ curl -sSL cli.openfaas.com <span class="p">|</span> sudo sh
+armv7l  
+Getting package https://github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  
+</pre></div>
+
+
+<h4 id="_6">下载样例</h4>
+<div class="highlight"><pre><span></span>$ git clone https://github.com/alexellis/faas-cli
+$ <span class="nb">cd</span> faas-cli
+</pre></div>
+
+
+<h4 id="_7">为树莓派修补样例模版</h4>
+<p>我们临时修改我们的模版，让它们能在树莓派上工作：</p>
+<div class="highlight"><pre><span></span>$ cp template/node-armhf/Dockerfile template/node/
+$ cp template/python-armhf/Dockerfile template/python/
+</pre></div>
+
+
+<p>这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。</p>
+<blockquote>
+<p>了解 Docker 在树莓派上的最新状况，请查阅： <a href="https://blog.alexellis.io/5-things-docker-rpi/">你需要了解的五件事</a>。</p>
+</blockquote>
+<p>现在你可以跟着下面为 PC、笔记本和云端所写的教程操作，但我们在树莓派上要先运行一些命令。</p>
+<ul>
+<li><a href="https://blog.alexellis.io/first-faas-python-function">使用 OpenFaaS 运行你的第一个 Serverless Python 功能</a></li>
+</ul>
+<p>注意第 3 步：</p>
+<ul>
+<li>把你的功能放到先前从 GitHub 下载的 <code>faas-cli</code> 文件夹中，而不是 <code>~/functinos/hello-python</code> 里。</li>
+<li>同时，在 <code>stack.yml</code> 文件中把 <code>localhost</code> 替换成第一个树莓派的 IP 地址。</li>
+</ul>
+<p>集群可能会花费几分钟把 Serverless 功能下载到相关的树莓派上。你可以用下面的命令查看你的服务，确保副本一项显示 “1/1”：</p>
+<div class="highlight"><pre><span></span>$ watch <span class="s1">&#39;docker service ls&#39;</span>
+pv27thj5lftz        hello-python        replicated          <span class="m">1</span>/1                 alexellis2/faas-hello-python-armhf:latest  
+</pre></div>
+
+
+<p><strong>继续阅读教程：</strong> <a href="https://blog.alexellis.io/first-faas-python-function">使用 OpenFaaS 运行你的第一个 Serverless Python 功能</a></p>
+<p>关于 Node.js 或者其它语言的更多信息，可以进一步访问 <a href="https://github.com/alexellis/faas">FaaS 仓库</a>。</p>
+<h3 id="_8">检查功能的指标</h3>
+<p>既然使用 Serverless，你也不想花时间监控你的功能。幸运的是，OpenFaaS 内建了 <a href="https://prometheus.io/">Prometheus</a> 指标检测，这意味着你可以追踪每个功能的运行时长和调用频率。</p>
+<h4 id="_9">指标驱动自动伸缩</h4>
+<p>如果你给一个功能生成足够的负载，OpenFaaS 将自动扩展你的功能；当需求消失时，你又会回到单一副本的状态。</p>
+<p>这个请求样例你可以复制到浏览器中：</p>
+<p>只要把 IP 地址改成你的即可。</p>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/call_rate.png" /></p>
+<div class="highlight"><pre><span></span>http://192.168.0.25:9090/graph?g0.range_input=15m&amp;g0.stacked=1&amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;g0.tab=0&amp;g1.range_input=1h&amp;g1.expr=gateway_service_count&amp;g1.tab=0  
+</pre></div>
+
+
+<p>这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：</p>
+<div class="highlight"><pre><span></span>rate(gateway_function_invocation_total[20s])  
+</pre></div>
+
+
+<p>第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。</p>
+<div class="highlight"><pre><span></span>gateway_service_count  
+</pre></div>
+
+
+<p>如果你想触发自动扩展，你可以在树莓派上尝试下面指令：</p>
+<div class="highlight"><pre><span></span>$ <span class="k">while</span> <span class="o">[</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> curl -4 localhost:8080/function/func_echoit --data <span class="s2">&quot;hello world&quot;</span> <span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。</p>
+<p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/alerts.png" /></p>
+<p>当你降低负载，副本数量显示在你的第二个图表中，并且 <code>gateway_service_count</code> 指标再次降回 1。</p>
+<h3 id="_10">结束演讲</h3>
+<p>我们现在配置好了 Docker、Swarm， 并且让 OpenFaaS 运行代码，把树莓派像大型计算机一样使用。</p>
+<blockquote>
+<p>希望大家支持这个项目，<strong>星标</strong> <a href="https://github.com/alexellis/faas">FaaS 的 GitHub 仓库</a>。</p>
+</blockquote>
+<p>你是如何搭建好了自己的 Docker Swarm 集群并且运行 OpenFaaS 的呢？在 Twitter <a href="https://twitter.com/alexellisuk">@alexellisuk</a> 上分享你的照片或推文吧。</p>
+<p><strong>观看我在 Dockercon 上关于 OpenFaaS 的视频</strong></p>
+<p>我在 <a href="https://blog.alexellis.io/dockercon-2017-captains-log/">Austin 的 Dockercon</a> 上展示了 OpenFaaS。——观看介绍和互动例子的视频： https://www.youtube.com/embed/-h2VTE9WnZs </p>
+<p>有问题？在下面的评论中提出，或者给我发邮件，邀请我进入你和志同道合者讨论树莓派、Docker、Serverless 的 Slack channel。</p>
+<p><strong>想要学习更多关于树莓派上运行 Docker 的内容？</strong></p>
+<p>我建议从 <a href="https://blog.alexellis.io/5-things-docker-rpi/">你需要了解的五件事</a> 开始，它包含了安全性、树莓派和普通 PC 间微妙差别等话题。</p>
+<ul>
+<li><a href="https://blog.alexellis.io/dockercon-tips-docker-raspberry-pi/">Dockercon tips: Docker &amp; Raspberry Pi</a></li>
+<li><a href="https://blog.alexellis.io/gpio-on-swarm/">Control GPIO with Docker Swarm</a></li>
+<li><a href="https://blog.alexellis.io/docker-engine-in-your-pocket/">Is that a Docker Engine in your pocket??</a></li>
+</ul>
+<hr />
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://blog.xu0o0.me/tag/container.html">container</a>
+      <a href="http://blog.xu0o0.me/tag/docker.html">docker</a>
+      <a href="http://blog.xu0o0.me/tag/linux.html">linux</a>
+      <a href="http://blog.xu0o0.me/tag/serverless.html">serverless</a>
+      <a href="http://blog.xu0o0.me/tag/fan-yi.html">翻译</a>
+    </p>
+  </div>
+
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'xu0o0';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; xu0o0  - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-nc-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-85250016-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " ~xu0o0 ",
+  "url" : "http://blog.xu0o0.me",
+  "image": "/img/avatar.jpg",
+  "description": ""
+}
+</script>
+</body>
+</html>
