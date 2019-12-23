@@ -29,7 +29,7 @@
 &lt;p&gt;很多组织仍然使用无法暂时下线的单点故障的服务器，也因为这个原因，它无法升级或者重启。如果你想让系统更加安全，你需要去除过时的包袱，搭建一个至少能在深夜维护时段重启的系统。&lt;/p&gt;
 &lt;p&gt;基本上，快速便捷的补丁管理也是一个成熟专业的系统管理团队所具备的标志。升级软件是所有系统管理员的必要工作之一，花费时间去让这个过程简洁快速，带来的好处远远不止是系统安全性。例如，它能帮助我们找到架构设计中的单点故障。另外，它还帮助鉴定出环境中过时的系统，给我们替换这些部分提供了动机。最后，当补丁管理做得足够好，它会节省系统管理员的时间，让他们把精力放在真正需要专业知识的地方。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;Kyle Rankin 是高级安全与基础设施架构师，其著作包括： Linux Hardening in Hostile Networks，DevOps Troubleshooting 以及 The Official Ubuntu Server Book。同时，他还是 Linux Journal 的专栏作家。&lt;/p&gt;</content><category term="sysadmin"></category><category term="linux"></category><category term="翻译"></category></entry><entry><title>【译】使用 Docker 构建你的 Serverless 树莓派集群</title><link href="//blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html" rel="alternate"></link><published>2017-10-28T00:00:00+08:00</published><updated>2017-10-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-10-28:/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Kyle Rankin 是高级安全与基础设施架构师，其著作包括： Linux Hardening in Hostile Networks，DevOps Troubleshooting 以及 The Official Ubuntu Server Book。同时，他还是 Linux Journal 的专栏作家。&lt;/p&gt;</content><category term="Tech"></category><category term="sysadmin"></category><category term="linux"></category><category term="翻译"></category></entry><entry><title>【译】使用 Docker 构建你的 Serverless 树莓派集群</title><link href="//blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html" rel="alternate"></link><published>2017-10-28T00:00:00+08:00</published><updated>2017-10-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-10-28:/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/"&gt;https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://twitter.com/alexellisuk"&gt;Alex Ellis&lt;/a&gt;
 校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -259,17 +259,17 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;p&gt;这个请求样例你可以复制到浏览器中：&lt;/p&gt;
 &lt;p&gt;只要把 IP 地址改成你的即可。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/call_rate.png" /&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;rate(gateway_function_invocation_total[20s])  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;rate(gateway_function_invocation_total[20s])  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gateway_service_count  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;gateway_service_count  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -297,7 +297,7 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;li&gt;&lt;a href="https://blog.alexellis.io/gpio-on-swarm/"&gt;Control GPIO with Docker Swarm&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://blog.alexellis.io/docker-engine-in-your-pocket/"&gt;Is that a Docker Engine in your pocket??&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;hr /&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="serverless"></category><category term="翻译"></category></entry><entry><title>【译】Kubernetes 是什么？</title><link href="//blog.xu0o0.me/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
+&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="serverless"></category><category term="翻译"></category></entry><entry><title>【译】Kubernetes 是什么？</title><link href="//blog.xu0o0.me/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://www.redhat.com/en/containers/what-is-kubernetes"&gt;https://www.redhat.com/en/containers/what-is-kubernetes&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://www.redhat.com/"&gt;www.redhat.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8858-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -368,7 +368,7 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;p&gt;所以从基础设施的角度，管理容器的方式发生了一点小小的变化。对容器的控制在更高的层次进行，提供了更佳的控制方式，而无需用户微观管理每个单独的容器或者节点。必要的工作则主要集中在如何指派 Kubernetes 主节点、定义节点和 pod 等问题上。&lt;/p&gt;
 &lt;h4 id="docker-kubernetes"&gt;docker 在 Kubernetes 中的角色&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://www.redhat.com/en/containers/what-is-docker"&gt;Docker&lt;/a&gt; 技术依然执行它原本的任务。当 kubernetes 把 pod 调度到节点上，节点上的 kubelet 会指示 docker 启动特定的容器。接着，kubelet 会通过 docker 持续地收集容器的信息，然后提交到主节点上。Docker 如往常一样拉取容器镜像、启动或停止容器。不同点仅仅在于这是由自动化系统控制而非管理员在每个节点上手动操作的。&lt;/p&gt;
-&lt;hr /&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="//blog.xu0o0.me/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
+&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="//blog.xu0o0.me/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://opensource.com/article/17/7/how-linux-containers-evolved"&gt;https://opensource.com/article/17/7/how-linux-containers-evolved&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://opensource.com/users/rhatdan"&gt;Daniel J Walsh&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -444,13 +444,13 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;我们想要在 atomic 实现的一个功能是 &lt;code&gt;atomic mount&lt;/code&gt;。从根本上讲，我们希望从 Docker 镜像存储（上游 docker 称之为 graph driver）中获取内容，把镜像挂在到某处，以便用工具来查看该镜像。如果你使用上游的 docker，查看镜像内容的唯一方法就是启动该容器。如果其中有不可信的内容，执行容器中的代码来查看它会有潜在危险。通过启动容器查看镜像内容的另一个问题是所需的工具可能没有被包含在容器镜像当中。&lt;/p&gt;
 &lt;p&gt;大多数容器镜像扫描器遵循以下流程：它们连接到 Docker 的套结字，执行一个 &lt;code&gt;docker save&lt;/code&gt; 来创建一个 tar 打包文件，然后在磁盘上分解这个打包文件，最后查看其中的内容。这是一个很慢的过程。&lt;/p&gt;
 &lt;p&gt;通过 &lt;code&gt;atomic mount&lt;/code&gt;，我们希望直接使用 Docker graph driver 挂载镜像。如果 docker 守护进程使用 device mapper，我们将挂载这个设备。如果它使用 overlay，我们会挂载 overlay。这个操作很快而且满足我们的需求。现在你可以执行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# atomic mount fedora /mnt
-# cd /mnt
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# atomic mount fedora /mnt&lt;/span&gt;
+&lt;span class="err"&gt;# cd /mnt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;然后开始探查内容。你完成相应工作后，执行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;# atomic umount /mnt
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# atomic umount /mnt&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -462,7 +462,7 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;我们创建了 &lt;a href="https://github.com/containers/storage"&gt;containers/storage&lt;/a&gt; 项目，实现了容器运行、构建、存储所需的所有写时拷贝（COW）特性，同时不再需要一个单一进程来控制和监控这个过程（也就是不需要守护进程）。现在 skopeo 以及其它工具和项目可以直接利用镜像的存储系统。其它开源项目也开始使用 containers/storage，在某些时候，我们也会把这些项目合并回上游 docker 项目。&lt;/p&gt;
 &lt;h3 id="_8"&gt;驶向创新&lt;/h3&gt;
 &lt;p&gt;当 Kubernetes 在一个节点上使用 docker 守护进程运行容器时会发生什么？首先，Kubernetes 执行一条类似如下的命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;kubelet run nginx -image=nginx
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;kubelet run nginx -image=nginx&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -579,4 +579,4 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;（题图：&lt;a href="https://www.flickr.com/photos/danramarch/"&gt;Daniel Ramirez&lt;/a&gt; &lt;a href="https://creativecommons.org/licenses/by-sa/4.0/"&gt;CC BY-SA 4.0&lt;/a&gt;）&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;作者简介：&lt;/p&gt;
-&lt;p&gt;Daniel J Walsh - Daniel 有将近 30 年的计算机安全领域工作经验。他在 2001 年 8 月加入 Red Hat。&lt;/p&gt;</content><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="翻译"></category></entry></feed>
+&lt;p&gt;Daniel J Walsh - Daniel 有将近 30 年的计算机安全领域工作经验。他在 2001 年 8 月加入 Red Hat。&lt;/p&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="翻译"></category></entry></feed>

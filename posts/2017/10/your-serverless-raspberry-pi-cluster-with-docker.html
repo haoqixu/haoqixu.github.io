@@ -306,17 +306,17 @@ pv27thj5lftz        hello-python        replicated          <span class="m">1</s
 <p>这个请求样例你可以复制到浏览器中：</p>
 <p>只要把 IP 地址改成你的即可。</p>
 <p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/call_rate.png" /></p>
-<div class="highlight"><pre><span></span>http://192.168.0.25:9090/graph?g0.range_input=15m&amp;g0.stacked=1&amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;g0.tab=0&amp;g1.range_input=1h&amp;g1.expr=gateway_service_count&amp;g1.tab=0  
+<div class="highlight"><pre><span></span><span class="c">http://192.168.0.25:9090/graph?g0.range_input=15m&amp;g0.stacked=1&amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;g0.tab=0&amp;g1.range_input=1h&amp;g1.expr=gateway_service_count&amp;g1.tab=0  </span>
 </pre></div>
 
 
 <p>这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：</p>
-<div class="highlight"><pre><span></span>rate(gateway_function_invocation_total[20s])  
+<div class="highlight"><pre><span></span><span class="err">rate(gateway_function_invocation_total[20s])  </span>
 </pre></div>
 
 
 <p>第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。</p>
-<div class="highlight"><pre><span></span>gateway_service_count  
+<div class="highlight"><pre><span></span><span class="err">gateway_service_count  </span>
 </pre></div>
 
 
