@@ -88,8 +88,8 @@
 &lt;/blockquote&gt;
 &lt;h4 id="_2"&gt;接通电源，然后修改主机名&lt;/h4&gt;
 &lt;p&gt;现在启动树莓派的电源并且使用 &lt;code&gt;ssh&lt;/code&gt; 连接：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ssh pi@raspberrypi.local
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ssh pi@raspberrypi.local
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;
@@ -99,22 +99,22 @@
 &lt;p&gt;当你到了这一步，你还可以把划分给 GPU （显卡）的内存设置为 16MB。&lt;/p&gt;
 &lt;h4 id="docker"&gt;现在安装 Docker&lt;/h4&gt;
 &lt;p&gt;我们可以使用通用脚本来安装：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -sSL https://get.docker.com &lt;span class="p"&gt;|&lt;/span&gt; sh
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ curl -sSL https://get.docker.com &lt;span class="p"&gt;|&lt;/span&gt; sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;
 &lt;p&gt;这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;你可能会看到类似下面的警告，不过你可以安全地忽略它并且成功安装上 Docker CE 17.05：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;WARNING&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;raspbian&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;longer&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;://&lt;/span&gt;&lt;span class="kd"&gt;get&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;WARNING&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;raspbian&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;longer&lt;/span&gt; &lt;span class="n"&gt;updated&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;https&lt;/span&gt;&lt;span class="o"&gt;://&lt;/span&gt;&lt;span class="kd"&gt;get&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;com&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;  
 &lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;legacy&lt;/span&gt; &lt;span class="n"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt; &lt;span class="kd"&gt;package&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ usermod pi -aG docker
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ usermod pi -aG docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;blockquote&gt;
@@ -126,7 +126,7 @@
 &lt;p&gt;现在为其它的树莓派重复上述步骤。&lt;/p&gt;
 &lt;h3 id="swarm"&gt;创建你的 Swarm 集群&lt;/h3&gt;
 &lt;p&gt;登录你的第一个树莓派，然后输入下面的命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker swarm init
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ docker swarm init
 Swarm initialized: current node &lt;span class="o"&gt;(&lt;/span&gt;3ra7i5ldijsffjnmubmsfh767&lt;span class="o"&gt;)&lt;/span&gt; is now a manager.
 
 To add a worker to this swarm, run the following command:
@@ -134,17 +134,17 @@ To add a worker to this swarm, run the following command:
     docker swarm join &lt;span class="se"&gt;\&lt;/span&gt;
     --token SWMTKN-1-496mv9itb7584pzcddzj4zvzzfltgud8k75rvujopw15n3ehzu-af445b08359golnzhncbdj9o3 &lt;span class="se"&gt;\&lt;/span&gt;
     &lt;span class="m"&gt;192&lt;/span&gt;.168.0.79:2377
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 &lt;code&gt;ssh&lt;/code&gt; 登录每个树莓派，运行这个加入集群的命令。&lt;/p&gt;
 &lt;p&gt;等待连接完成后，在第一个树莓派上查看集群的节点：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker node ls
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS  
 3ra7i5ldijsffjnmubmsfh767 *   swarm1              Ready               Active              Leader  
 k9mom28s2kqxocfq1fo6ywu63     swarm3              Ready               Active  
 y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;恭喜你！你现在拥有一个树莓派集群了！&lt;/p&gt;
@@ -162,7 +162,7 @@ y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active
 &lt;p&gt;如果你支持 &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt;，希望你能 &lt;strong&gt;星标&lt;/strong&gt; &lt;a href="https://github.com/alexellis/faas"&gt;OpenFaaS&lt;/a&gt; 的 GitHub 仓库。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;登录你的第一个树莓派（你运行 &lt;code&gt;docker swarm init&lt;/code&gt; 的节点），然后部署这个项目：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/alexellis/faas/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ git clone https://github.com/alexellis/faas/
 $ &lt;span class="nb"&gt;cd&lt;/span&gt; faas
 $ ./deploy_stack.armhf.sh
 Creating network func_functions  
@@ -173,12 +173,12 @@ Creating service func_nodeinfo
 Creating service func_markdown  
 Creating service func_wordcount  
 Creating service func_echoit  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。&lt;/p&gt;
 &lt;p&gt;这个过程会持续几分钟，你可以用下面指令查看它的完成状况：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
 ID                  NAME                MODE                REPLICAS            IMAGE                                   PORTS  
 57ine9c10xhp        func_wordcount      replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/alpine:latest-armhf  
 d979zipx1gld        func_prometheus     replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/prometheus-armhf:1.5.2       *:9090-&amp;gt;9090/tcp  
@@ -187,21 +187,21 @@ lhbk1fc2lobq        func_markdown       replicated          &lt;span class="m"&g
 pj814yluzyyo        func_alertmanager   replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/alertmanager-armhf:0.5.1     *:9093-&amp;gt;9093/tcp  
 q4bet4xs10pk        func_gateway        replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/gateway-armhf:0.6.0           *:8080-&amp;gt;8080/tcp  
 v9vsvx73pszz        func_nodeinfo       replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/nodeinfo:latest-armhf  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;我们希望看到每个服务都显示 “1/1”。&lt;/p&gt;
 &lt;p&gt;你可以根据服务名查看该服务被调度到哪个树莓派上：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ docker service ps func_markdown
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ docker service ps func_markdown
 ID                  IMAGE                                   NODE    STATE  
 func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;状态一项应该显示 &lt;code&gt;Running&lt;/code&gt;，如果它是 &lt;code&gt;Pending&lt;/code&gt;，那么镜像可能还在下载中。&lt;/p&gt;
 &lt;p&gt;在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ifconfig
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ifconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;例如，如果你的 IP 地址是 192.168.0.100，那就访问 http://192.168.0.100:8080 。&lt;/p&gt;
@@ -212,23 +212,23 @@ func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running
 &lt;h3 id="serverless_1"&gt;部署你的第一个 Serverless 功能：&lt;/h3&gt;
 &lt;p&gt;这一节的内容已经有相关的教程，但是我们需要几个步骤来配置树莓派。&lt;/p&gt;
 &lt;h4 id="faas-cli"&gt;获取 FaaS-CLI&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ curl -sSL cli.openfaas.com &lt;span class="p"&gt;|&lt;/span&gt; sudo sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ curl -sSL cli.openfaas.com &lt;span class="p"&gt;|&lt;/span&gt; sudo sh
 armv7l  
 Getting package https://github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4 id="_6"&gt;下载样例&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ git clone https://github.com/alexellis/faas-cli
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ git clone https://github.com/alexellis/faas-cli
 $ &lt;span class="nb"&gt;cd&lt;/span&gt; faas-cli
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4 id="_7"&gt;为树莓派修补样例模版&lt;/h4&gt;
 &lt;p&gt;我们临时修改我们的模版，让它们能在树莓派上工作：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cp template/node-armhf/Dockerfile template/node/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ cp template/node-armhf/Dockerfile template/node/
 $ cp template/python-armhf/Dockerfile template/python/
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。&lt;/p&gt;
@@ -245,9 +245,9 @@ $ cp template/python-armhf/Dockerfile template/python/
 &lt;li&gt;同时，在 &lt;code&gt;stack.yml&lt;/code&gt; 文件中把 &lt;code&gt;localhost&lt;/code&gt; 替换成第一个树莓派的 IP 地址。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;集群可能会花费几分钟把 Serverless 功能下载到相关的树莓派上。你可以用下面的命令查看你的服务，确保副本一项显示 “1/1”：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
 pv27thj5lftz        hello-python        replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/faas-hello-python-armhf:latest  
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;继续阅读教程：&lt;/strong&gt; &lt;a href="https://blog.alexellis.io/first-faas-python-function"&gt;使用 OpenFaaS 运行你的第一个 Serverless Python 功能&lt;/a&gt;&lt;/p&gt;
@@ -259,23 +259,23 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;p&gt;这个请求样例你可以复制到浏览器中：&lt;/p&gt;
 &lt;p&gt;只要把 IP 地址改成你的即可。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/call_rate.png" /&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;rate(gateway_function_invocation_total[20s])  &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;rate(gateway_function_invocation_total[20s])  &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;gateway_service_count  &lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;gateway_service_count  &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;如果你想触发自动扩展，你可以在树莓派上尝试下面指令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; curl -4 localhost:8080/function/func_echoit --data &lt;span class="s2"&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; curl -4 localhost:8080/function/func_echoit --data &lt;span class="s2"&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。&lt;/p&gt;
@@ -444,14 +444,14 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;我们想要在 atomic 实现的一个功能是 &lt;code&gt;atomic mount&lt;/code&gt;。从根本上讲，我们希望从 Docker 镜像存储（上游 docker 称之为 graph driver）中获取内容，把镜像挂在到某处，以便用工具来查看该镜像。如果你使用上游的 docker，查看镜像内容的唯一方法就是启动该容器。如果其中有不可信的内容，执行容器中的代码来查看它会有潜在危险。通过启动容器查看镜像内容的另一个问题是所需的工具可能没有被包含在容器镜像当中。&lt;/p&gt;
 &lt;p&gt;大多数容器镜像扫描器遵循以下流程：它们连接到 Docker 的套结字，执行一个 &lt;code&gt;docker save&lt;/code&gt; 来创建一个 tar 打包文件，然后在磁盘上分解这个打包文件，最后查看其中的内容。这是一个很慢的过程。&lt;/p&gt;
 &lt;p&gt;通过 &lt;code&gt;atomic mount&lt;/code&gt;，我们希望直接使用 Docker graph driver 挂载镜像。如果 docker 守护进程使用 device mapper，我们将挂载这个设备。如果它使用 overlay，我们会挂载 overlay。这个操作很快而且满足我们的需求。现在你可以执行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# atomic mount fedora /mnt&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;# atomic mount fedora /mnt&lt;/span&gt;
 &lt;span class="err"&gt;# cd /mnt&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;然后开始探查内容。你完成相应工作后，执行：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;# atomic umount /mnt&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;# atomic umount /mnt&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;我们在 &lt;code&gt;atomic scan&lt;/code&gt; 中使用了这一特性，实现了一个快速的容器扫描器。&lt;/p&gt;
@@ -462,8 +462,8 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;我们创建了 &lt;a href="https://github.com/containers/storage"&gt;containers/storage&lt;/a&gt; 项目，实现了容器运行、构建、存储所需的所有写时拷贝（COW）特性，同时不再需要一个单一进程来控制和监控这个过程（也就是不需要守护进程）。现在 skopeo 以及其它工具和项目可以直接利用镜像的存储系统。其它开源项目也开始使用 containers/storage，在某些时候，我们也会把这些项目合并回上游 docker 项目。&lt;/p&gt;
 &lt;h3 id="_8"&gt;驶向创新&lt;/h3&gt;
 &lt;p&gt;当 Kubernetes 在一个节点上使用 docker 守护进程运行容器时会发生什么？首先，Kubernetes 执行一条类似如下的命令：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;kubelet run nginx -image=nginx&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;kubelet run nginx -image=nginx&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;这个命令告诉 kubelet 在节点上运行 NGINX 应用程序。kubelet 调用 CRI 请求启动 NGINX 应用程序。在这时，实现了 CRI 规范的容器运行时必须执行以下步骤：&lt;/p&gt;

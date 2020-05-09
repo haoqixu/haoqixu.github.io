@@ -156,14 +156,14 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 <p>我们想要在 atomic 实现的一个功能是 <code>atomic mount</code>。从根本上讲，我们希望从 Docker 镜像存储（上游 docker 称之为 graph driver）中获取内容，把镜像挂在到某处，以便用工具来查看该镜像。如果你使用上游的 docker，查看镜像内容的唯一方法就是启动该容器。如果其中有不可信的内容，执行容器中的代码来查看它会有潜在危险。通过启动容器查看镜像内容的另一个问题是所需的工具可能没有被包含在容器镜像当中。</p>
 <p>大多数容器镜像扫描器遵循以下流程：它们连接到 Docker 的套结字，执行一个 <code>docker save</code> 来创建一个 tar 打包文件，然后在磁盘上分解这个打包文件，最后查看其中的内容。这是一个很慢的过程。</p>
 <p>通过 <code>atomic mount</code>，我们希望直接使用 Docker graph driver 挂载镜像。如果 docker 守护进程使用 device mapper，我们将挂载这个设备。如果它使用 overlay，我们会挂载 overlay。这个操作很快而且满足我们的需求。现在你可以执行：</p>
-<div class="highlight"><pre><span></span><span class="err"># atomic mount fedora /mnt</span>
+<div class="highlight"><pre><span></span><code><span class="err"># atomic mount fedora /mnt</span>
 <span class="err"># cd /mnt</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>然后开始探查内容。你完成相应工作后，执行：</p>
-<div class="highlight"><pre><span></span><span class="err"># atomic umount /mnt</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err"># atomic umount /mnt</span>
+</code></pre></div>
 
 
 <p>我们在 <code>atomic scan</code> 中使用了这一特性，实现了一个快速的容器扫描器。</p>
@@ -174,8 +174,8 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 <p>我们创建了 <a href="https://github.com/containers/storage">containers/storage</a> 项目，实现了容器运行、构建、存储所需的所有写时拷贝（COW）特性，同时不再需要一个单一进程来控制和监控这个过程（也就是不需要守护进程）。现在 skopeo 以及其它工具和项目可以直接利用镜像的存储系统。其它开源项目也开始使用 containers/storage，在某些时候，我们也会把这些项目合并回上游 docker 项目。</p>
 <h3 id="_8">驶向创新</h3>
 <p>当 Kubernetes 在一个节点上使用 docker 守护进程运行容器时会发生什么？首先，Kubernetes 执行一条类似如下的命令：</p>
-<div class="highlight"><pre><span></span><span class="err">kubelet run nginx -image=nginx</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">kubelet run nginx -image=nginx</span>
+</code></pre></div>
 
 
 <p>这个命令告诉 kubelet 在节点上运行 NGINX 应用程序。kubelet 调用 CRI 请求启动 NGINX 应用程序。在这时，实现了 CRI 规范的容器运行时必须执行以下步骤：</p>
