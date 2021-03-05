@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>~xu0o0</title><link href="//blog.xu0o0.me/" rel="alternate"></link><link href="//blog.xu0o0.me/feeds/all.atom.xml" rel="self"></link><id>//blog.xu0o0.me/</id><updated>2017-12-28T00:00:00+08:00</updated><entry><title>【译】系统管理 101：补丁管理</title><link href="//blog.xu0o0.me/posts/2017/12/sysadmin-101-patch-management.html" rel="alternate"></link><published>2017-12-28T00:00:00+08:00</published><updated>2017-12-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-12-28:/posts/2017/12/sysadmin-101-patch-management.html</id><summary type="html">&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>~xu0o0</title><link href="//blog.xu0o0.org/" rel="alternate"></link><link href="//blog.xu0o0.org/feeds/all.atom.xml" rel="self"></link><id>//blog.xu0o0.org/</id><updated>2017-12-28T00:00:00+08:00</updated><entry><title>【译】系统管理 101：补丁管理</title><link href="//blog.xu0o0.org/posts/2017/12/sysadmin-101-patch-management.html" rel="alternate"></link><published>2017-12-28T00:00:00+08:00</published><updated>2017-12-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.org,2017-12-28:/posts/2017/12/sysadmin-101-patch-management.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://www.linuxjournal.com/content/sysadmin-101-patch-management"&gt;https://www.linuxjournal.com/content/sysadmin-101-patch-management&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://www.linuxjournal.com/users/kyle-rankin"&gt;Kyle Rankin&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -29,7 +29,7 @@
 &lt;p&gt;很多组织仍然使用无法暂时下线的单点故障的服务器，也因为这个原因，它无法升级或者重启。如果你想让系统更加安全，你需要去除过时的包袱，搭建一个至少能在深夜维护时段重启的系统。&lt;/p&gt;
 &lt;p&gt;基本上，快速便捷的补丁管理也是一个成熟专业的系统管理团队所具备的标志。升级软件是所有系统管理员的必要工作之一，花费时间去让这个过程简洁快速，带来的好处远远不止是系统安全性。例如，它能帮助我们找到架构设计中的单点故障。另外，它还帮助鉴定出环境中过时的系统，给我们替换这些部分提供了动机。最后，当补丁管理做得足够好，它会节省系统管理员的时间，让他们把精力放在真正需要专业知识的地方。&lt;/p&gt;
 &lt;hr /&gt;
-&lt;p&gt;Kyle Rankin 是高级安全与基础设施架构师，其著作包括： Linux Hardening in Hostile Networks，DevOps Troubleshooting 以及 The Official Ubuntu Server Book。同时，他还是 Linux Journal 的专栏作家。&lt;/p&gt;</content><category term="Tech"></category><category term="sysadmin"></category><category term="linux"></category><category term="翻译"></category></entry><entry><title>【译】使用 Docker 构建你的 Serverless 树莓派集群</title><link href="//blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html" rel="alternate"></link><published>2017-10-28T00:00:00+08:00</published><updated>2017-10-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-10-28:/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;Kyle Rankin 是高级安全与基础设施架构师，其著作包括： Linux Hardening in Hostile Networks，DevOps Troubleshooting 以及 The Official Ubuntu Server Book。同时，他还是 Linux Journal 的专栏作家。&lt;/p&gt;</content><category term="Tech"></category><category term="sysadmin"></category><category term="linux"></category><category term="翻译"></category></entry><entry><title>【译】使用 Docker 构建你的 Serverless 树莓派集群</title><link href="//blog.xu0o0.org/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html" rel="alternate"></link><published>2017-10-28T00:00:00+08:00</published><updated>2017-10-28T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.org,2017-10-28:/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/"&gt;https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://twitter.com/alexellisuk"&gt;Alex Ellis&lt;/a&gt;
 校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -91,7 +91,6 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ssh pi@raspberrypi.local
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;blockquote&gt;
 &lt;p&gt;默认密码是 &lt;code&gt;raspberry&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -102,7 +101,6 @@
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ curl -sSL https://get.docker.com &lt;span class="p"&gt;|&lt;/span&gt; sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;blockquote&gt;
 &lt;p&gt;这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -111,11 +109,9 @@
 &lt;span class="n"&gt;Installing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;legacy&lt;/span&gt; &lt;span class="n"&gt;docker&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;engine&lt;/span&gt; &lt;span class="kd"&gt;package&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ usermod pi -aG docker
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;blockquote&gt;
 &lt;p&gt;如果你的用户名不是 &lt;code&gt;pi&lt;/code&gt;，那就把它替换成你的用户名。&lt;/p&gt;
@@ -136,7 +132,6 @@ To add a worker to this swarm, run the following command:
     &lt;span class="m"&gt;192&lt;/span&gt;.168.0.79:2377
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 &lt;code&gt;ssh&lt;/code&gt; 登录每个树莓派，运行这个加入集群的命令。&lt;/p&gt;
 &lt;p&gt;等待连接完成后，在第一个树莓派上查看集群的节点：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ docker node ls
@@ -145,7 +140,6 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 k9mom28s2kqxocfq1fo6ywu63     swarm3              Ready               Active  
 y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;恭喜你！你现在拥有一个树莓派集群了！&lt;/p&gt;
 &lt;h4 id="_5"&gt;更多关于集群的内容&lt;/h4&gt;
@@ -175,7 +169,6 @@ Creating service func_wordcount
 Creating service func_echoit  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。&lt;/p&gt;
 &lt;p&gt;这个过程会持续几分钟，你可以用下面指令查看它的完成状况：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ watch &lt;span class="s1"&gt;&amp;#39;docker service ls&amp;#39;&lt;/span&gt;
@@ -189,7 +182,6 @@ q4bet4xs10pk        func_gateway        replicated          &lt;span class="m"&g
 v9vsvx73pszz        func_nodeinfo       replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 functions/nodeinfo:latest-armhf  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;我们希望看到每个服务都显示 “1/1”。&lt;/p&gt;
 &lt;p&gt;你可以根据服务名查看该服务被调度到哪个树莓派上：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ docker service ps func_markdown
@@ -197,12 +189,10 @@ ID                  IMAGE                                   NODE    STATE
 func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;状态一项应该显示 &lt;code&gt;Running&lt;/code&gt;，如果它是 &lt;code&gt;Pending&lt;/code&gt;，那么镜像可能还在下载中。&lt;/p&gt;
 &lt;p&gt;在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ifconfig
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;例如，如果你的 IP 地址是 192.168.0.100，那就访问 http://192.168.0.100:8080 。&lt;/p&gt;
 &lt;p&gt;这是你会看到 FaaS UI（也叫 API 网关）。这是你定义、测试、调用功能的地方。&lt;/p&gt;
@@ -217,19 +207,16 @@ armv7l
 Getting package https://github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;h4 id="_6"&gt;下载样例&lt;/h4&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ git clone https://github.com/alexellis/faas-cli
 $ &lt;span class="nb"&gt;cd&lt;/span&gt; faas-cli
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;h4 id="_7"&gt;为树莓派修补样例模版&lt;/h4&gt;
 &lt;p&gt;我们临时修改我们的模版，让它们能在树莓派上工作：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ cp template/node-armhf/Dockerfile template/node/
 $ cp template/python-armhf/Dockerfile template/python/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。&lt;/p&gt;
 &lt;blockquote&gt;
@@ -249,7 +236,6 @@ $ cp template/python-armhf/Dockerfile template/python/
 pv27thj5lftz        hello-python        replicated          &lt;span class="m"&gt;1&lt;/span&gt;/1                 alexellis2/faas-hello-python-armhf:latest  
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;&lt;strong&gt;继续阅读教程：&lt;/strong&gt; &lt;a href="https://blog.alexellis.io/first-faas-python-function"&gt;使用 OpenFaaS 运行你的第一个 Serverless Python 功能&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;关于 Node.js 或者其它语言的更多信息，可以进一步访问 &lt;a href="https://github.com/alexellis/faas"&gt;FaaS 仓库&lt;/a&gt;。&lt;/p&gt;
 &lt;h3 id="_8"&gt;检查功能的指标&lt;/h3&gt;
@@ -262,21 +248,17 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;http://192.168.0.25:9090/graph?g0.range_input=15m&amp;amp;g0.stacked=1&amp;amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;amp;g0.tab=0&amp;amp;g1.range_input=1h&amp;amp;g1.expr=gateway_service_count&amp;amp;g1.tab=0  &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;rate(gateway_function_invocation_total[20s])  &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;gateway_service_count  &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;如果你想触发自动扩展，你可以在树莓派上尝试下面指令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; curl -4 localhost:8080/function/func_echoit --data &lt;span class="s2"&gt;&amp;quot;hello world&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="https://blog.alexellis.io/content/images/2017/08/alerts.png" /&gt;&lt;/p&gt;
@@ -297,7 +279,7 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;li&gt;&lt;a href="https://blog.alexellis.io/gpio-on-swarm/"&gt;Control GPIO with Docker Swarm&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://blog.alexellis.io/docker-engine-in-your-pocket/"&gt;Is that a Docker Engine in your pocket??&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="serverless"></category><category term="翻译"></category></entry><entry><title>【译】Kubernetes 是什么？</title><link href="//blog.xu0o0.me/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
+&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="serverless"></category><category term="翻译"></category></entry><entry><title>【译】Kubernetes 是什么？</title><link href="//blog.xu0o0.org/posts/2017/09/what-is-kubernetes.html" rel="alternate"></link><published>2017-09-11T00:00:00+08:00</published><updated>2017-09-11T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.org,2017-09-11:/posts/2017/09/what-is-kubernetes.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://www.redhat.com/en/containers/what-is-kubernetes"&gt;https://www.redhat.com/en/containers/what-is-kubernetes&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://www.redhat.com/"&gt;www.redhat.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8858-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -368,7 +350,7 @@ pv27thj5lftz        hello-python        replicated          &lt;span class="m"&g
 &lt;p&gt;所以从基础设施的角度，管理容器的方式发生了一点小小的变化。对容器的控制在更高的层次进行，提供了更佳的控制方式，而无需用户微观管理每个单独的容器或者节点。必要的工作则主要集中在如何指派 Kubernetes 主节点、定义节点和 pod 等问题上。&lt;/p&gt;
 &lt;h4 id="docker-kubernetes"&gt;docker 在 Kubernetes 中的角色&lt;/h4&gt;
 &lt;p&gt;&lt;a href="https://www.redhat.com/en/containers/what-is-docker"&gt;Docker&lt;/a&gt; 技术依然执行它原本的任务。当 kubernetes 把 pod 调度到节点上，节点上的 kubelet 会指示 docker 启动特定的容器。接着，kubelet 会通过 docker 持续地收集容器的信息，然后提交到主节点上。Docker 如往常一样拉取容器镜像、启动或停止容器。不同点仅仅在于这是由自动化系统控制而非管理员在每个节点上手动操作的。&lt;/p&gt;
-&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="//blog.xu0o0.me/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.me,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
+&lt;hr /&gt;</content><category term="Tech"></category><category term="container"></category><category term="docker"></category><category term="linux"></category><category term="kubernetes"></category><category term="翻译"></category></entry><entry><title>【译】Linux 容器演化史</title><link href="//blog.xu0o0.org/posts/2017/08/how-linux-containers-evolved.html" rel="alternate"></link><published>2017-08-29T00:00:00+08:00</published><updated>2017-08-29T00:00:00+08:00</updated><author><name>xu0o0</name></author><id>tag:blog.xu0o0.org,2017-08-29:/posts/2017/08/how-linux-containers-evolved.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;原文链接：&lt;a href="https://opensource.com/article/17/7/how-linux-containers-evolved"&gt;https://opensource.com/article/17/7/how-linux-containers-evolved&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;原文作者：&lt;a href="https://opensource.com/users/rhatdan"&gt;Daniel J Walsh&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;校对：&lt;a href="https://linux.cn/article-8811-1.html"&gt;Linux.CN&lt;/a&gt; 的 &lt;a href="https://github.com/wxy"&gt;wxy 前辈&lt;/a&gt;&lt;/p&gt;
@@ -448,11 +430,9 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;span class="err"&gt;# cd /mnt&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-
 &lt;p&gt;然后开始探查内容。你完成相应工作后，执行：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;# atomic umount /mnt&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;我们在 &lt;code&gt;atomic scan&lt;/code&gt; 中使用了这一特性，实现了一个快速的容器扫描器。&lt;/p&gt;
 &lt;h4 id="_6"&gt;工具协作的问题&lt;/h4&gt;
@@ -464,7 +444,6 @@ Kubernetes 的容器运行时。Kubernetes 上游还为 CRI 开发者们创建�
 &lt;p&gt;当 Kubernetes 在一个节点上使用 docker 守护进程运行容器时会发生什么？首先，Kubernetes 执行一条类似如下的命令：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;kubelet run nginx -image=nginx&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 
 &lt;p&gt;这个命令告诉 kubelet 在节点上运行 NGINX 应用程序。kubelet 调用 CRI 请求启动 NGINX 应用程序。在这时，实现了 CRI 规范的容器运行时必须执行以下步骤：&lt;/p&gt;
 &lt;ol&gt;

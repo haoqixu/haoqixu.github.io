@@ -4,13 +4,13 @@
 <head>
   <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" type="text/css" href="//blog.xu0o0.me/theme/stylesheet/style.min.css">
+    <link rel="stylesheet" type="text/css" href="//blog.xu0o0.org/theme/stylesheet/style.min.css">
 
-  <link rel="stylesheet" type="text/css" href="//blog.xu0o0.me/theme/pygments/github.min.css">
-  <link rel="stylesheet" type="text/css" href="//blog.xu0o0.me/theme/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="//blog.xu0o0.org/theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="//blog.xu0o0.org/theme/font-awesome/css/font-awesome.min.css">
 
 
-    <link href="//blog.xu0o0.me/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="~xu0o0 Atom">
+    <link href="//blog.xu0o0.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="~xu0o0 Atom">
 
 
 
@@ -28,11 +28,11 @@
 <meta property="og:title" content="【译】使用 Docker 构建你的 Serverless 树莓派集群"/>
 <meta property="og:description" content="原文链接：https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/ 原文作者：Alex Ellis 校对：Linux.CN 的 wxy 前辈 发布平台：Linux中国 这篇博文将向你展示如何使用 Docker 和 OpenFaaS 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。 “Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。 图片：3 个 Raspberry Pi Zero 这是我在本文中描述的集群，用黄铜支架分隔每个设备。 Serverless 是什么？它为何重要？ 行业对于 …"/>
 <meta property="og:locale" content="zh_CN"/>
-<meta property="og:url" content="//blog.xu0o0.me/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html"/>
+<meta property="og:url" content="//blog.xu0o0.org/posts/2017/10/your-serverless-raspberry-pi-cluster-with-docker.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2017-10-28 00:00:00+08:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="//blog.xu0o0.me/author/xu0o0.html">
+<meta property="article:author" content="//blog.xu0o0.org/author/xu0o0.html">
 <meta property="article:section" content="Tech"/>
 <meta property="article:tag" content="container"/>
 <meta property="article:tag" content="docker"/>
@@ -46,16 +46,16 @@
 <body>
   <aside>
     <div>
-      <a href="//blog.xu0o0.me">
+      <a href="//blog.xu0o0.org">
         <img src="/img/avatar.jpg" alt="~xu0o0" title="~xu0o0">
       </a>
-      <h1><a href="//blog.xu0o0.me">~xu0o0</a></h1>
+      <h1><a href="//blog.xu0o0.org">~xu0o0</a></h1>
 
 
       <nav>
         <ul class="list">
-          <li><a href="//blog.xu0o0.me/pages/About.html#About">About</a></li>
-          <li><a href="//blog.xu0o0.me/pages/Blogroll.html#Blogroll">Blogroll</a></li>
+          <li><a href="//blog.xu0o0.org/pages/About.html#About">About</a></li>
+          <li><a href="//blog.xu0o0.org/pages/Blogroll.html#Blogroll">Blogroll</a></li>
 
         </ul>
       </nav>
@@ -68,14 +68,14 @@
   </aside>
   <main>
     <nav>
-      <a href="//blog.xu0o0.me">    Home
+      <a href="//blog.xu0o0.org">    Home
 </a>
 
       <a href="/archives.html">archives</a>
       <a href="/categories.html">categories</a>
       <a href="/tags.html">tags</a>
 
-      <a href="//blog.xu0o0.me/feeds/all.atom.xml">    Atom
+      <a href="//blog.xu0o0.org/feeds/all.atom.xml">    Atom
 </a>
 
     </nav>
@@ -84,7 +84,7 @@
   <header>
     <h1 id="your-serverless-raspberry-pi-cluster-with-docker">【译】使用 Docker 构建你的 Serverless 树莓派集群</h1>
     <p>
-          Posted on 2017年10月28日(周六) in <a href="//blog.xu0o0.me/category/tech.html">Tech</a>
+          Posted on 2017年10月28日(周六) in <a href="//blog.xu0o0.org/category/tech.html">Tech</a>
 
 
     </p>
@@ -138,7 +138,6 @@
 <div class="highlight"><pre><span></span><code>$ ssh pi@raspberrypi.local
 </code></pre></div>
 
-
 <blockquote>
 <p>默认密码是 <code>raspberry</code></p>
 </blockquote>
@@ -149,7 +148,6 @@
 <div class="highlight"><pre><span></span><code>$ curl -sSL https://get.docker.com <span class="p">|</span> sh
 </code></pre></div>
 
-
 <blockquote>
 <p>这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。</p>
 </blockquote>
@@ -158,11 +156,9 @@
 <span class="n">Installing</span> <span class="n">the</span> <span class="n">legacy</span> <span class="n">docker</span><span class="o">-</span><span class="n">engine</span> <span class="kd">package</span><span class="o">...</span>  
 </code></pre></div>
 
-
 <p>之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：</p>
 <div class="highlight"><pre><span></span><code>$ usermod pi -aG docker
 </code></pre></div>
-
 
 <blockquote>
 <p>如果你的用户名不是 <code>pi</code>，那就把它替换成你的用户名。</p>
@@ -183,7 +179,6 @@ To add a worker to this swarm, run the following command:
     <span class="m">192</span>.168.0.79:2377
 </code></pre></div>
 
-
 <p>你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 <code>ssh</code> 登录每个树莓派，运行这个加入集群的命令。</p>
 <p>等待连接完成后，在第一个树莓派上查看集群的节点：</p>
 <div class="highlight"><pre><span></span><code>$ docker node ls
@@ -192,7 +187,6 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 k9mom28s2kqxocfq1fo6ywu63     swarm3              Ready               Active  
 y2p089bs174vmrlx30gc77h4o     swarm4              Ready               Active  
 </code></pre></div>
-
 
 <p>恭喜你！你现在拥有一个树莓派集群了！</p>
 <h4 id="_5">更多关于集群的内容</h4>
@@ -222,7 +216,6 @@ Creating service func_wordcount
 Creating service func_echoit  
 </code></pre></div>
 
-
 <p>你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。</p>
 <p>这个过程会持续几分钟，你可以用下面指令查看它的完成状况：</p>
 <div class="highlight"><pre><span></span><code>$ watch <span class="s1">&#39;docker service ls&#39;</span>
@@ -236,7 +229,6 @@ q4bet4xs10pk        func_gateway        replicated          <span class="m">1</s
 v9vsvx73pszz        func_nodeinfo       replicated          <span class="m">1</span>/1                 functions/nodeinfo:latest-armhf  
 </code></pre></div>
 
-
 <p>我们希望看到每个服务都显示 “1/1”。</p>
 <p>你可以根据服务名查看该服务被调度到哪个树莓派上：</p>
 <div class="highlight"><pre><span></span><code>$ docker service ps func_markdown
@@ -244,12 +236,10 @@ ID                  IMAGE                                   NODE    STATE
 func_markdown.1     functions/markdownrender:latest-armhf   swarm4  Running  
 </code></pre></div>
 
-
 <p>状态一项应该显示 <code>Running</code>，如果它是 <code>Pending</code>，那么镜像可能还在下载中。</p>
 <p>在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：</p>
 <div class="highlight"><pre><span></span><code>$ ifconfig
 </code></pre></div>
-
 
 <p>例如，如果你的 IP 地址是 192.168.0.100，那就访问 http://192.168.0.100:8080 。</p>
 <p>这是你会看到 FaaS UI（也叫 API 网关）。这是你定义、测试、调用功能的地方。</p>
@@ -264,19 +254,16 @@ armv7l
 Getting package https://github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  
 </code></pre></div>
 
-
 <h4 id="_6">下载样例</h4>
 <div class="highlight"><pre><span></span><code>$ git clone https://github.com/alexellis/faas-cli
 $ <span class="nb">cd</span> faas-cli
 </code></pre></div>
-
 
 <h4 id="_7">为树莓派修补样例模版</h4>
 <p>我们临时修改我们的模版，让它们能在树莓派上工作：</p>
 <div class="highlight"><pre><span></span><code>$ cp template/node-armhf/Dockerfile template/node/
 $ cp template/python-armhf/Dockerfile template/python/
 </code></pre></div>
-
 
 <p>这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。</p>
 <blockquote>
@@ -296,7 +283,6 @@ $ cp template/python-armhf/Dockerfile template/python/
 pv27thj5lftz        hello-python        replicated          <span class="m">1</span>/1                 alexellis2/faas-hello-python-armhf:latest  
 </code></pre></div>
 
-
 <p><strong>继续阅读教程：</strong> <a href="https://blog.alexellis.io/first-faas-python-function">使用 OpenFaaS 运行你的第一个 Serverless Python 功能</a></p>
 <p>关于 Node.js 或者其它语言的更多信息，可以进一步访问 <a href="https://github.com/alexellis/faas">FaaS 仓库</a>。</p>
 <h3 id="_8">检查功能的指标</h3>
@@ -309,21 +295,17 @@ pv27thj5lftz        hello-python        replicated          <span class="m">1</s
 <div class="highlight"><pre><span></span><code><span class="c">http://192.168.0.25:9090/graph?g0.range_input=15m&amp;g0.stacked=1&amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;g0.tab=0&amp;g1.range_input=1h&amp;g1.expr=gateway_service_count&amp;g1.tab=0  </span>
 </code></pre></div>
 
-
 <p>这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：</p>
 <div class="highlight"><pre><span></span><code><span class="err">rate(gateway_function_invocation_total[20s])  </span>
 </code></pre></div>
-
 
 <p>第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。</p>
 <div class="highlight"><pre><span></span><code><span class="err">gateway_service_count  </span>
 </code></pre></div>
 
-
 <p>如果你想触发自动扩展，你可以在树莓派上尝试下面指令：</p>
 <div class="highlight"><pre><span></span><code>$ <span class="k">while</span> <span class="o">[</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> curl -4 localhost:8080/function/func_echoit --data <span class="s2">&quot;hello world&quot;</span> <span class="p">;</span> <span class="k">done</span>
 </code></pre></div>
-
 
 <p>查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。</p>
 <p><img alt="" src="https://blog.alexellis.io/content/images/2017/08/alerts.png" /></p>
@@ -348,11 +330,11 @@ pv27thj5lftz        hello-python        replicated          <span class="m">1</s
   </div>
   <div class="tag-cloud">
     <p>
-      <a href="//blog.xu0o0.me/tag/container.html">container</a>
-      <a href="//blog.xu0o0.me/tag/docker.html">docker</a>
-      <a href="//blog.xu0o0.me/tag/linux.html">linux</a>
-      <a href="//blog.xu0o0.me/tag/serverless.html">serverless</a>
-      <a href="//blog.xu0o0.me/tag/fan-yi.html">翻译</a>
+      <a href="//blog.xu0o0.org/tag/container.html">container</a>
+      <a href="//blog.xu0o0.org/tag/docker.html">docker</a>
+      <a href="//blog.xu0o0.org/tag/linux.html">linux</a>
+      <a href="//blog.xu0o0.org/tag/serverless.html">serverless</a>
+      <a href="//blog.xu0o0.org/tag/fan-yi.html">翻译</a>
     </p>
   </div>
 
@@ -411,7 +393,7 @@ pv27thj5lftz        hello-python        replicated          <span class="m">1</s
   "@context" : "http://schema.org",
   "@type" : "Blog",
   "name": " ~xu0o0 ",
-  "url" : "//blog.xu0o0.me",
+  "url" : "//blog.xu0o0.org",
   "image": "/img/avatar.jpg",
   "description": ""
 }
